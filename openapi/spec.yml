@@ -1,0 +1,235 @@
+openapi: "3.0.0"
+info:
+  version: 0.0.1
+  title: Portable Education Plan schema definitions
+paths: {}
+components:
+  schemas:
+
+    IdealizedPathway:
+      type: object
+      properties:
+        awardGoal:
+          $ref: "#/components/schemas/AwardGoal"
+        programPlan:
+          $ref: "#/components/schemas/ProgramPlan"
+
+    AwardGoal:
+      type: object
+      properties:
+        programID:
+          type: string
+          example: AAS-Geology-2019
+        status:
+          type: object
+          properties:
+            active:
+              type: boolean
+              example: true
+            lastUpdated:
+              type: string
+              format: date-time
+              example: "2018-11-21T22:45:50.493Z"
+        awardName:
+          description: Claim/Award/Certificate Name
+          type: string
+          example: "Associate of Science"
+        awardId:
+          description: Claim/Award/Certificate ID
+          type: string
+          example: "AAS-2019"
+        issuer:
+          type: string
+          example: "4cd"
+        anticipatedTimeToCompletion:
+          type: object
+          properties:
+            count:
+              type: number
+              example: 2
+            unit:
+              type: string
+              example: years
+              enum:
+                - days
+                - weeks
+                - months
+                - years
+                - quarters
+                - semesters
+
+    ProgramPlan:
+      type: object
+      properties:
+        issuer:
+          type: string
+          example: 4cd
+        requirements:
+          $ref: "#/components/schemas/RequirementsSpec"
+        incrementalObjectives:
+          type: array
+          items:
+            $ref: "#/components/schemas/IncrementalObjective"
+        suggestedSequences:
+          type: array
+          items:
+            $ref: "#/components/schemas/AcademicSequence"
+
+    RequirementsSpec:
+      type: object
+      description: >
+        Academic and non-academic requirements expressed in one of potentially
+        multiple json formats / versions.
+      properties:
+        format:
+          type: string
+          example: "hobsons/chute"
+        version:
+          type: string
+          example: "1.2"
+        contents:
+          type: object
+
+    IncrementalObjective:
+      type: object
+
+    AcademicSequence:
+      type: array
+      items:
+        oneOf:
+          - $ref: "#/components/schemas/PlannedCourse"
+          - $ref: "#/components/schemas/PlannedActivity"
+
+    PlannedCourse:
+      type: object
+      properties:
+        number:
+          type: string
+          example: MATH101
+        unique:
+          type: string
+          example: MATH101.A.2019-2
+        section:
+          type: string
+          example: 1c
+        termId:
+          type: string
+          example: Spring2019
+
+    PlannedActivity:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Graduation Paperwork
+        value:
+          type: string
+          example: Complete
+        termId:
+          type: string
+          example: Spring2019
+
+    PersonalizedPathway:
+      type: object
+      properties:
+        transcriptData:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudentRecord'
+        idealizedPlanReference:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "4cd.AAS-Geology-Ideal"
+            name:
+              type: string
+              example: 'AAS - Geology Pathway'
+        awardGoal:
+          $ref: "#/components/schemas/PersonalizedAwardGoal"
+        personalizedProgramPlan:
+          $ref: "#/components/schemas/PersonalizedProgramPlan"
+        remainingSteps:
+          $ref: "#/components/schemas/RequirementsSpec"
+
+    PersonalizedAwardGoal:
+      allOf:
+        - $ref: "#/components/schemas/AwardGoal"
+        - type: object
+          properties:
+            anticipatedAwardCompletionDate:
+              type: string
+              format: date-time
+              example: "2018-11-21T22:45:50.493Z"
+            credentialAwardIssueDate:
+              type: string
+              format: date-time
+              example: "2018-11-21T22:45:50.493Z"
+
+    PersonalizedProgramPlan:
+      type: object
+      description: List of courses and activities by termId value as key
+      properties:
+        additionalProperties:
+          type: array
+          items:
+            oneOf:
+              - $ref: "#/components/schemas/PlannedCourse"
+              - $ref: "#/components/schemas/PlannedActivity"
+
+    StudentRecord:
+      oneOf:
+        - $ref: '#/components/schemas/CourseRecord'
+        - $ref: '#/components/schemas/TestRecord'
+        - $ref: '#/components/schemas/OtherRecord'
+
+    CourseRecord:
+      type: object
+      properties:
+        number:
+          type: string
+          example: MATH101
+        unique:
+          type: string
+          example: MATH101.A.2019-2
+        section:
+          type: string
+          example: 1c
+        grade:
+          type: string
+          example: B
+        numericGrade:
+          type: number
+          example: 3.0
+        credits:
+          type: number
+          example: 5.0
+        termId:
+          type: string
+          example: Spring2017
+
+    TestRecord:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Math Placement 1
+        score:
+          type: number
+          example: 74
+        value:
+          type: string
+          example: MATH101 placement
+
+    OtherRecord:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Met With Counselor
+        value:
+          type: string
+          example: Met 7/1/2018
+        operator:
+          type: string
+          example: "="
