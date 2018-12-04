@@ -48,3 +48,4 @@ exclude:
   - package.json
   - package-lock.json
   - _theme
+  - Readme.md
