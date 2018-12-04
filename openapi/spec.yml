@@ -19,29 +19,37 @@ components:
       properties:
         programID:
           type: string
+          example: AAS-Geology-2019
         status:
           type: object
           properties:
             active:
               type: boolean
+              example: true
             lastUpdated:
               type: string
               format: date-time
+              example: "2018-11-21T22:45:50.493Z"
         awardName:
           description: Claim/Award/Certificate Name
           type: string
+          example: "Associate of Science"
         awardId:
           description: Claim/Award/Certificate ID
           type: string
+          example: "AAS-2019"
         issuer:
           type: string
+          example: "4cd"
         anticipatedTimeToCompletion:
           type: object
           properties:
             count:
               type: number
+              example: 2
             unit:
               type: string
+              example: years
               enum:
                 - days
                 - weeks
@@ -55,6 +63,7 @@ components:
       properties:
         issuer:
           type: string
+          example: 4cd
         requirements:
           $ref: "#/components/schemas/RequirementsSpec"
         incrementalObjectives:
@@ -74,8 +83,10 @@ components:
       properties:
         format:
           type: string
+          example: "hobsons/chute"
         version:
           type: string
+          example: "1.2"
         contents:
           type: object
 
@@ -94,22 +105,29 @@ components:
       properties:
         number:
           type: string
+          example: MATH101
         unique:
           type: string
+          example: MATH101.A.2019-2
         section:
           type: string
+          example: 1c
         termId:
           type: string
+          example: Spring2019
 
     PlannedActivity:
       type: object
       properties:
         name:
           type: string
+          example: Graduation Paperwork
         value:
           type: string
+          example: Complete
         termId:
           type: string
+          example: Spring2019
 
     PersonalizedPathway:
       type: object
@@ -123,8 +141,10 @@ components:
           properties:
             id:
               type: string
+              example: "4cd.AAS-Geology-Ideal"
             name:
               type: string
+              example: 'AAS - Geology Pathway'
         awardGoal:
           $ref: "#/components/schemas/PersonalizedAwardGoal"
         personalizedProgramPlan:
@@ -140,9 +160,11 @@ components:
             anticipatedAwardCompletionDate:
               type: string
               format: date-time
+              example: "2018-11-21T22:45:50.493Z"
             credentialAwardIssueDate:
               type: string
               format: date-time
+              example: "2018-11-21T22:45:50.493Z"
 
     PersonalizedProgramPlan:
       type: object
@@ -166,35 +188,48 @@ components:
       properties:
         number:
           type: string
+          example: MATH101
         unique:
           type: string
+          example: MATH101.A.2019-2
         section:
           type: string
+          example: 1c
         grade:
           type: string
+          example: B
         numericGrade:
           type: number
+          example: 3.0
         credits:
           type: number
+          example: 5.0
         termId:
           type: string
+          example: Spring2017
 
     TestRecord:
       type: object
       properties:
         name:
           type: string
+          example: Math Placement 1
         score:
           type: number
+          example: 74
         value:
           type: string
+          example: MATH101 placement
 
     OtherRecord:
       type: object
       properties:
         name:
           type: string
+          example: Met With Counselor
         value:
           type: string
+          example: Met 7/1/2018
         operator:
           type: string
+          example: "="
