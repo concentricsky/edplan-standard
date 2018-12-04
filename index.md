@@ -1,7 +1,26 @@
-## EdPlan Standard
+---
+layout: home
+---
+# EdPlan Standard
+{{site.description}}
 
-This is an effort to describe Education Plans for students for interoperability between systems that author and track EdPlans in partnership with higher education institutions and serving their students. It is a collaboration between state institutions and vendors serving Community Colleges in California.
+View the EdPlan Standard API Definition [here](./edplan-standard.yaml). This
+file is compatible with OpenAPI 3.0.
 
-### Project Structure
+## Data Model
 
-This site consists of an Open API v3 Definition for the EdPlan Standard and documentation written in Markdown that will be rendered to a website. This will cover the structure of the data models and APIs that make up the standard as well as context and usage information.
+## API
+The API consists of *n* endpoints. Clients get data about idealized EdPlans
+published by institutions and
+
+### Get Idealized EdPlans
+A client may get idealized EdPlans that are published on the server. These are
+assumed to be publicly available objects.
+
+...
+
+### Get Student EdPlans
+This endpoint returns a set of one or more EdPlans associated with the
+authenticated or identified students.
+
+...

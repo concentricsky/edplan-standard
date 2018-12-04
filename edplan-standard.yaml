@@ -1,0 +1,92 @@
+openapi: 3.0.0
+servers:
+  - url: ''
+info:
+  description: >-
+    The EdPlan Standard is a data format used by institutions and vendors to
+    describe the Education Plans established by institutions and students that
+    map student journeys toward certificates and degrees. The EdPlanStandard API
+    describes endpoints that make EdPlans available for interoperability.
+  version: 0.1.0
+  title: EdPlan Standard API
+  termsOfService: ''
+  contact:
+    email: 'tbd@example.com'
+    name: EdPlan Standard Working Group
+  license:
+    name: NOT YET LICENSED
+    url: ''
+tags:
+  - name: user
+    description: Operations about user
+    externalDocs:
+      description: Find out more about our store
+      url: 'http://swagger.io'
+paths:
+  /edplans/offered:
+    x-temp:
+      summary: Get the list of EdPlans offered for completion by students
+      description: >-
+        EdPlans are offered by institutions who recommend them as options to
+        complete the various educational goals (such as Degrees or Certificates)
+        that they award as an end goal to a sequence of successfully completed
+        learning activities. A program/major template representing a specific
+        set of courses and the sequence needed to achieve a specific award of
+        credential / student outcome. Used as a start point for the creation of
+        a Personalized Pathway. Typically available publicly. Typically will not
+        contain any PII data.
+      operationId: OfferedEdPlanList
+      responses:
+        '400':
+          description: OK
+        '404':
+          description: EdPlans not found
+      parameters: []
+    get:
+      summary: Get the list of EdPlans offered for completion by students
+      description: >-
+        EdPlans are offered by institutions who recommend them as options to
+        complete the various educational goals (such as Degrees or Certificates)
+        that they award as an end goal to a sequence of successfully completed
+        learning activities. A program/major template representing a specific
+        set of courses and the sequence needed to achieve a specific award of
+        credential / student outcome. Used as a start point for the creation of
+        a Personalized Pathway. Typically available publicly. Typically will not
+        contain any PII data.
+      parameters: []
+      operationId: OfferedEdPlanList
+      responses:
+        '400':
+          description: OK
+        '404':
+          description: EdPlans not found
+  '/edplans/student/{studentIdentifier}':
+    get:
+      summary: Get the list of Personalized EdPlans for a student
+      description: >-
+        A Personalized EdPlan is a specific individualized plan of study for a
+        single student to reach a specific objective. Includes courses and
+        sequences necessary to successfully complete the defined objective. It
+        contains the student's progress towards the objective. PII data is
+        included and must be secure.
+      parameters:
+        - name: studentIdentifier
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The identifier for a particular student
+      operationId: Student EdPlanList
+      responses:
+        '200':
+          description: Description
+        '201':
+          description: Student EdPlans Not Found
+        '202':
+          description: Not Authenticated
+        '400':
+          description: Request Error
+components:
+  schemas: {}
+  links: {}
+  callbacks: {}

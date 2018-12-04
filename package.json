@@ -1,0 +1,23 @@
+{
+  "name": "edplan-standard",
+  "version": "0.1.0",
+  "description": "EdPlan Standard",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "jekyll serve",
+    "start": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/concentricsky/edplan-standard"
+  },
+  "author": "EdPlan Standard Workgroup",
+  "license": "NO LICENSE YET",
+  "devDependencies": {
+    "browser-sync": "^2.23.6",
+    "gulp": "^3.9.1",
+    "gulp-shell": "^0.6.5",
+    "lodash": "^4.17.5"
+  }
+}
