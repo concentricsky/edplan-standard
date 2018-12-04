@@ -2,6 +2,49 @@
 
 ## Hobsons chute format
 
+Chute is a DSL for specifying requirements.  A simple program might looks like the following in the DSL
+
+```
+PLAN AAS-Geology "Associate of Science - Geology"
+    WITH
+    description = "Two Year Geology Program resulting in a Associate of Science upon completion.",
+    catalogYear >= 2019,
+    gpa >= 1.7.
+
+    take ENGL101.
+
+    take GEOL101 and (GEOL102 or GEOL113b) and (GEOL103 or GEOL113b)
+    where grade >= 2.0,
+    with description = "First Year Courses", targetYear = 1.
+
+    take GEOL11*,GEOL12* where courses >= 2, credits >= 4, with description = "First Year Electives".
+
+    take 2 FROM (
+        BIOL101 and (BIO102a,BIO102b,BIO102c where courses >= 2, credits >= 4) and BIOL103
+        with description = "Biology Series"
+    ),
+    (
+        CHEM101 and CHEM102 and CHEM103
+        with description = "Chemistry Series"
+    ),
+    (
+        PHYS101 and PHYS102 and PHYS103
+        with description = "Physics Series"
+    )
+    with description = "Two of Biology, Chemistry, or Physics Series".
+
+
+    take (GEOL206 or GEOL208B) and GEOL221 and GEOL222 with description = "Second Year Courses".
+
+    take GeologyElectives where courses >= 4, credits >= 12, with description = "Geology Electives".
+
+    satisfy GenEd and satisfy Graduation.
+
+END
+```
+
+It can be exported into JSON that would look similar to this
+
 ```json
 {
   "requirements": {
