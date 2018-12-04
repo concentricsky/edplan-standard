@@ -1,0 +1,200 @@
+openapi: "3.0.0"
+info:
+  version: 0.0.1
+  title: Portable Education Plan schema definitions
+paths: {}
+components:
+  schemas:
+
+    IdealizedPathway:
+      type: object
+      properties:
+        awardGoal:
+          $ref: "#/components/schemas/AwardGoal"
+        programPlan:
+          $ref: "#/components/schemas/ProgramPlan"
+
+    AwardGoal:
+      type: object
+      properties:
+        programID:
+          type: string
+        status:
+          type: object
+          properties:
+            active:
+              type: boolean
+            lastUpdated:
+              type: string
+              format: date-time
+        awardName:
+          description: Claim/Award/Certificate Name
+          type: string
+        awardId:
+          description: Claim/Award/Certificate ID
+          type: string
+        issuer:
+          type: string
+        anticipatedTimeToCompletion:
+          type: object
+          properties:
+            count:
+              type: number
+            unit:
+              type: string
+              enum:
+                - days
+                - weeks
+                - months
+                - years
+                - quarters
+                - semesters
+
+    ProgramPlan:
+      type: object
+      properties:
+        issuer:
+          type: string
+        requirements:
+          $ref: "#/components/schemas/RequirementsSpec"
+        incrementalObjectives:
+          type: array
+          items:
+            $ref: "#/components/schemas/IncrementalObjective"
+        suggestedSequences:
+          type: array
+          items:
+            $ref: "#/components/schemas/AcademicSequence"
+
+    RequirementsSpec:
+      type: object
+      description: >
+        Academic and non-academic requirements expressed in one of potentially
+        multiple json formats / versions.
+      properties:
+        format:
+          type: string
+        version:
+          type: string
+        contents:
+          type: object
+
+    IncrementalObjective:
+      type: object
+
+    AcademicSequence:
+      type: array
+      items:
+        oneOf:
+          - $ref: "#/components/schemas/PlannedCourse"
+          - $ref: "#/components/schemas/PlannedActivity"
+
+    PlannedCourse:
+      type: object
+      properties:
+        number:
+          type: string
+        unique:
+          type: string
+        section:
+          type: string
+        termId:
+          type: string
+
+    PlannedActivity:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+        termId:
+          type: string
+
+    PersonalizedPathway:
+      type: object
+      properties:
+        transcriptData:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudentRecord'
+        idealizedPlanReference:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+        awardGoal:
+          $ref: "#/components/schemas/PersonalizedAwardGoal"
+        personalizedProgramPlan:
+          $ref: "#/components/schemas/PersonalizedProgramPlan"
+        remainingSteps:
+          $ref: "#/components/schemas/RequirementsSpec"
+
+    PersonalizedAwardGoal:
+      allOf:
+        - $ref: "#/components/schemas/AwardGoal"
+        - type: object
+          properties:
+            anticipatedAwardCompletionDate:
+              type: string
+              format: date-time
+            credentialAwardIssueDate:
+              type: string
+              format: date-time
+
+    PersonalizedProgramPlan:
+      type: object
+      description: List of courses and activities by termId value as key
+      properties:
+        additionalProperties:
+          type: array
+          items:
+            oneOf:
+              - $ref: "#/components/schemas/PlannedCourse"
+              - $ref: "#/components/schemas/PlannedActivity"
+
+    StudentRecord:
+      oneOf:
+        - $ref: '#/components/schemas/CourseRecord'
+        - $ref: '#/components/schemas/TestRecord'
+        - $ref: '#/components/schemas/OtherRecord'
+
+    CourseRecord:
+      type: object
+      properties:
+        number:
+          type: string
+        unique:
+          type: string
+        section:
+          type: string
+        grade:
+          type: string
+        numericGrade:
+          type: number
+        credits:
+          type: number
+        termId:
+          type: string
+
+    TestRecord:
+      type: object
+      properties:
+        name:
+          type: string
+        score:
+          type: number
+        value:
+          type: string
+
+    OtherRecord:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+        operator:
+          type: string
