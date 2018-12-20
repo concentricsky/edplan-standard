@@ -7,6 +7,12 @@ layout: home
 View the EdPlan Standard API Definition [here](./edplan-standard.yaml). This
 file is compatible with OpenAPI 3.0.
 
+## Design Principles
+We want to create an initial cut of the EdPlan Standard that is immediately usable. This data should be able to move between the relevant services that implement edplans. It must be a practical implementation to hold minimum viable versions of the edplan data created and understood in the participating vendors' products. This means the data model should be compatible with the data models in existing products from the start. 
+
+### Acceptance Criteria
+* Is this model workable to move a minimum viable version of our edplan data into and out of a repository?
+
 ## Data Model
 
 ### IdealizedPathway {#IdealizedPathway}
@@ -59,32 +65,45 @@ file is compatible with OpenAPI 3.0.
 
 #### Award Goal {#AwardGoal}
 
+*Issues*:
+* It would be good to create a IRI for identifier values if we're delivering a JSON-LD spec. ProgramID is the first such value.
+* Should ProgramID be a URL, or can we get a URL for every program ID?
+  * Probably we cannot do this.
+  * We could create a URL structure ending in the chancellor's office assigned COCI id.
+  * Job skills certificates offered aren't in COCI, so that method might not work for all programs to translate a string into a URL.
+* We could use a different format IRI, such as `urn:uuid`. Schools are the responsible party for creating this. Could they be responsible for tracking a locally unique identifier that is in an IRI format.
+  * Hearing that schools can track a unique id, but not yet hearing that they could do so in an IRI format consistently.
+  * Identifier does need to be scoped to the school.
+* `name` might be able to be used instead of `awardName` 
+* Identify cases for there being variation between program and award. Think through how these would be expressed.
+* Need to figure out how Issuers are identified. COCI college identifier is one thing to look at. e.g. `bakersfield`
+
+
 ```json
 {
-  "programID": "AAS-Geology-2019",
+  "id": "https://school.edu/awards/someaward123",
+  "name": "Associate in Science for Transfer Somewhere",
+  "programId": "https://school.edu/programs/9fa84564-e9f5-49a3-a0ae-a0f80b534f6e", 
   "status": {
     "active": true,
     "lastUpdated": "2018-11-21T22:45:50.493Z"
   },
-  "awardName": "Associate of Science",
-  "awardId": "AAS-2019",
-  "issuer": "4cd",
+  "issuer": "https://school.edu",
   "anticipatedTimeToCompletion": {
-    "count": 2,
-    "unit": "years"
+    "count": 10,
+    "unit": "terms"
   }
 }
-
 ```
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|programID|string|false|none|none|
+|id|string|false|none|Claim/Award/Certificate ID|
+|name|string|false|none|Claim/Award/Certificate Name|
+|programId|string|false|none|none|
 |status|object|false|none|none|
 |» active|boolean|false|none|none|
 |» lastUpdated|string(date-time)|false|none|none|
-|awardName|string|false|none|Claim/Award/Certificate Name|
-|awardId|string|false|none|Claim/Award/Certificate ID|
 |issuer|string|false|none|none|
 |anticipatedTimeToCompletion|object|false|none|none|
 |» count|number|false|none|none|
@@ -92,14 +111,22 @@ file is compatible with OpenAPI 3.0.
 
 ##### unit: Enumberated Values
 
+*Issues*
+* How do short summer or winter sessions work into this?
+* Goal: keep it simple and enable comparison. Perfect time accuracy is not the point of this component.
+* Should we have a Term object that has more metadata? That would add complexity and undercut the goal.
+* Option: identify the type of terms specifically. "A term of length 10weeks followed by a term of length 10weeks"
+
 |Property|Value|
-|---|---|
+|----|----|
 |unit|days|
 |unit|weeks|
 |unit|months|
 |unit|years|
 |unit|quarters|
 |unit|semesters|
+|unit|trimester|
+|unit|terms|
 
 #### Program Plan {#ProgramPlan}
 
