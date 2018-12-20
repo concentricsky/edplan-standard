@@ -17,6 +17,10 @@ environment set up. If you develop on more than one Ruby project, you may wish
 to use a ruby environment manager like [RVM](https://rvm.io) or
 [rbenv](http://rbenv.org/).
 
+Optionally use gulp and browserify to run an auto-reloading dev server with the
+below instructions. Otherwise, just run `jekyll serve` to use Jekyll's default
+auto-rebuilding server.
+
 * Clone the repository to your file system
 * Install dependencies: `bundle install` and `npm install`
 * Run auto-reloading development server: `npm run start`
