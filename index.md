@@ -8,7 +8,7 @@ View the EdPlan Standard API Definition [here](./edplan-standard.yaml). This
 file is compatible with OpenAPI 3.0.
 
 ## Design Principles
-We want to create an initial cut of the EdPlan Standard that is immediately usable. This data should be able to move between the relevant services that implement edplans. It must be a practical implementation to hold minimum viable versions of the edplan data created and understood in the participating vendors' products. This means the data model should be compatible with the data models in existing products from the start. 
+We want to create an initial cut of the EdPlan Standard that is immediately usable. This data should be able to move between the relevant services that implement edplans. It must be a practical implementation to hold minimum viable versions of the edplan data created and understood in the participating vendors' products. This means the data model should be compatible with the data models in existing products from the start.
 
 ### Acceptance Criteria
 * Is this model workable to move a minimum viable version of our edplan data into and out of a repository?
@@ -38,10 +38,18 @@ We want to create an initial cut of the EdPlan Standard that is immediately usab
       "unit": "years"
     }
   },
+  "issuers": [
+    {
+      "id": "https://school.edu",
+      "ope": 123456,
+      "duns": 123456789,
+      "name": "School of Edu"
+    }
+  ],
   "programPlan": {
-    "issuer": "4cd",
+    "issuer": "https://school.edu",
     "requirements": {
-      "format": "hobsons/chute",
+      "format": "https://example.com/HobsonsChuteFormat",
       "version": "1.2",
       "contents": {}
     },
@@ -74,16 +82,19 @@ We want to create an initial cut of the EdPlan Standard that is immediately usab
 * We could use a different format IRI, such as `urn:uuid`. Schools are the responsible party for creating this. Could they be responsible for tracking a locally unique identifier that is in an IRI format.
   * Hearing that schools can track a unique id, but not yet hearing that they could do so in an IRI format consistently.
   * Identifier does need to be scoped to the school.
-* `name` might be able to be used instead of `awardName` 
+* `name` might be able to be used instead of `awardName`
 * Identify cases for there being variation between program and award. Think through how these would be expressed.
 * Need to figure out how Issuers are identified. COCI college identifier is one thing to look at. e.g. `bakersfield`
+  * One case: There are multiple campuses for a particular institution. The locations have variations on requirements for degree goals based on availability at those different campuses. In that case, the issuer entity is probably the broader institution, but the programID might come from the subsidiary campus.
+* Possible sources for program/institutional IDs: DUNS, OPE, FICE (sp); There are 12-15 options in XML approved format for electronic transcripts
+* Consider coordinated format between estimatedTimeToCompletion and issuer identification.
 
 
 ```json
 {
   "id": "https://school.edu/awards/someaward123",
   "name": "Associate in Science for Transfer Somewhere",
-  "programId": "https://school.edu/programs/9fa84564-e9f5-49a3-a0ae-a0f80b534f6e", 
+  "programId": "https://school.edu/programs/9fa84564-e9f5-49a3-a0ae-a0f80b534f6e",
   "status": {
     "active": true,
     "lastUpdated": "2018-11-21T22:45:50.493Z"
@@ -115,10 +126,12 @@ We want to create an initial cut of the EdPlan Standard that is immediately usab
 * How do short summer or winter sessions work into this?
 * Goal: keep it simple and enable comparison. Perfect time accuracy is not the point of this component.
 * Should we have a Term object that has more metadata? That would add complexity and undercut the goal.
-* Option: identify the type of terms specifically. "A term of length 10weeks followed by a term of length 10weeks"
+* Option: identify the type of terms specifically. "A term of length 10weeks followed by a term of length 3weeks"
+* Should hours be added? (actual hours, less than a day. "A 4 hour certificate". Not comparable to 4 credit hours)
 
 |Property|Value|
 |----|----|
+|unit|hours|
 |unit|days|
 |unit|weeks|
 |unit|months|
@@ -129,10 +142,27 @@ We want to create an initial cut of the EdPlan Standard that is immediately usab
 |unit|terms|
 
 #### Program Plan {#ProgramPlan}
+**Issues**
+* The types of subsidiary achievements that might be
+* How to represent an elective that doesn't have a defined course (like a pick at least 6 credits from this category of courses)
+* Additional requirements
+* How can requirements for incremental objectives be expressed
+* There are three types of requirements:
+  - Course requirements,
+  - non-course requirements (GPA, residency), non-academic requirements (things that happen outside of the classroom that are still required)
+  - Test scores: maybe it is time to call them out specifically
+* Suggestion that for suggestedSequences, you might as well not leave the boxes open to be able to describe different options. Let the student drop their own version in, but for the suggestion, offer a concrete course. Might present information overload for students otherwise. Suggesting an actual concrete "default" suggestion cuts away information overload.
+* It definitely makes sense to describe the purpose for having "suggestedSequences" in this spec. It should not recapitulate data that is already in "requirements".
+  - It may still make sense to have "open-ended course descriptors" in this section to suggest "It is suggested to take a music elective before your higher ed math requirement".
+* Suggested sequences might vary depending on start term. But how?
+  - There seem to be strong reasons to have placeholder/open-ended course descriptors in the suggestedSequences area.
+* The intent of this part of the document is to expose the completion requirements (not tied to specific terms) and successful path(s) through the requirements.
+
+
 
 ```json
 {
-  "issuer": "4cd",
+  "issuer": "https://school.edu",
   "requirements": {
     "format": "hobsons/chute",
     "version": "1.2",
@@ -216,6 +246,9 @@ We want to create an initial cut of the EdPlan Standard that is immediately usab
 }
 
 ```
+
+**Issues**:
+* CID should be referenced for Course.
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
@@ -466,7 +499,7 @@ We want to create an initial cut of the EdPlan Standard that is immediately usab
 |value|string|false|none|none|
 |operator|string|false|none|none|
 
-## Example Requirements 
+## Example Requirements
 
 ### Hobsons chute format
 
