@@ -21,7 +21,7 @@ Table of contents
       * [AcademicSequence](#academicsequence)
       * [PlannedCourse](#plannedcourse)
       * [PlannedActivity](#plannedactivity)
-      * [PersonalizedPathway](#personlizedpathway)
+    * [PersonalizedPathway](#personlizedpathway)
       * [PersonalizedAwardGoal](#personalizedawardgoal)
       * [PersonalizedProgramPlan](#personalizedprogramplan)
       * [StudentRecord](#studentrecord)
