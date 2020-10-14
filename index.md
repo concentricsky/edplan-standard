@@ -7,6 +7,33 @@ layout: home
 View the EdPlan Standard API Definition [here](./edplan-standard.yaml). This
 file is compatible with OpenAPI 3.0.
 
+Table of contents
+=================
+
+
+ * [Design Principles](#design-principles)
+    * [Acceptance Criteria](#acceptance-criteria)
+ * [Data Model](#data-model)
+    * [IdealizedPathway](#idealizedpathway)
+      * [AwardGoal](#awardgoal)
+      * [ProgramPlan](#programplan)
+      * [RequirementsSpec](#requirementspec)
+      * [AcademicSequence](#academicsequence)
+      * [PlannedCourse](#plannedcourse)
+      * [PlannedActivity](#plannedactivity)
+      * [PersonalizedPathway](#personlizedpathway)
+      * [PersonalizedAwardGoal](#personalizedawardgoal)
+      * [PersonalizedProgramPlan](#personalizedprogramplan)
+      * [StudentRecord](#studentrecord)
+      * [CourseRecord](#courserecord)
+      * [TestRecord](#testrecord)
+      * [OtherRecord](#otherrecord)
+ * [Example Requirements](#example-requirements)
+ * [API](#api)
+    * [Get Idealized EdPlans](#get-idealized-edplans)
+    * [Get Student EdPlans](#get-student-edplans)
+
+
 ## Design Principles
 We want to create an initial cut of the EdPlan Standard that is immediately usable. This data should be able to move between the relevant services that implement edplans. It must be a practical implementation to hold minimum viable versions of the edplan data created and understood in the participating vendors' products. This means the data model should be compatible with the data models in existing products from the start.
 
@@ -71,7 +98,7 @@ We want to create an initial cut of the EdPlan Standard that is immediately usab
 
 ```
 
-#### Award Goal {#AwardGoal}
+#### AwardGoal {#AwardGoal}
 
 *Issues*:
 * It would be good to create a IRI for identifier values if we're delivering a JSON-LD spec. ProgramID is the first such value.
